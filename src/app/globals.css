@@ -1,0 +1,164 @@
+@import "tailwindcss";
+
+:root {
+  --ink: #24241f;
+  --muted: #77776e;
+  --paper: #f7f7f2;
+  --white: #fff;
+  --line: #e8e8df;
+  --accent: #bb553d;
+  --green: #315f4f;
+}
+* {
+  box-sizing: border-box;
+}
+html {
+  scroll-behavior: smooth;
+}
+body {
+  margin: 0;
+  background: var(--paper);
+  color: var(--ink);
+  font-family: Arial, Helvetica, sans-serif;
+  -webkit-font-smoothing: antialiased;
+}
+button,
+input,
+textarea,
+select {
+  font: inherit;
+}
+button,
+a {
+  -webkit-tap-highlight-color: transparent;
+}
+a {
+  color: inherit;
+  text-decoration: none;
+}
+button:focus-visible,
+a:focus-visible,
+input:focus-visible,
+textarea:focus-visible,
+select:focus-visible {
+  outline: 3px solid #bb553d70;
+  outline-offset: 2px;
+}
+.shell {
+  width: min(1160px, calc(100% - 48px));
+  margin-inline: auto;
+}
+.eyebrow {
+  color: var(--accent);
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+.button {
+  display: inline-flex;
+  min-height: 44px;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  border: 1px solid var(--ink);
+  border-radius: 7px;
+  background: var(--ink);
+  color: white;
+  padding: 0 18px;
+  font-size: 14px;
+  font-weight: 650;
+  cursor: pointer;
+  transition:
+    background 0.16s,
+    border-color 0.16s,
+    transform 0.16s;
+}
+.button:hover {
+  background: #414139;
+  border-color: #414139;
+  transform: translateY(-1px);
+}
+.button.secondary {
+  background: transparent;
+  color: var(--ink);
+}
+.button.secondary:hover {
+  background: #eeeee7;
+}
+.button.small {
+  min-height: 36px;
+  padding-inline: 12px;
+  font-size: 13px;
+}
+.button.danger {
+  border-color: #a74436;
+  background: #a74436;
+}
+.field {
+  display: grid;
+  gap: 7px;
+}
+.field label {
+  font-size: 13px;
+  font-weight: 650;
+}
+.field input,
+.field textarea,
+.field select {
+  width: 100%;
+  min-height: 44px;
+  border: 1px solid #d9d9d0;
+  border-radius: 6px;
+  background: white;
+  padding: 10px 12px;
+  color: var(--ink);
+}
+.field textarea {
+  min-height: 120px;
+  resize: vertical;
+}
+.muted {
+  color: var(--muted);
+}
+.workspace-page {
+  padding: 34px clamp(16px, 4vw, 42px) 65px;
+}
+.workspace-page h1 {
+  font-size: 31px;
+  letter-spacing: -0.05em;
+  margin: 9px 0;
+}
+.workspace-page > p {
+  font-size: 13px;
+  line-height: 1.65;
+}
+.app-dark {
+  --paper: #171816;
+  --white: #20211e;
+  --ink: #efefe9;
+  --muted: #a1a298;
+  --line: #34352f;
+  color: var(--ink);
+  background: var(--paper);
+}
+.app-dark .button.secondary {
+  color: var(--ink);
+  border-color: #54554c;
+}
+.app-dark .field input,
+.app-dark .field textarea,
+.app-dark .field select {
+  color: var(--ink);
+  background: #242520;
+  border-color: #494a42;
+}
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    scroll-behavior: auto !important;
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
+  }
+}

@@ -1,0 +1,7 @@
+node_modules
+.next
+outputs
+work
+coverage
+playwright-report
+test-results
