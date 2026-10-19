@@ -7,7 +7,8 @@ import { db } from "../src/lib/db";
 import { SESSION_COOKIE } from "../src/lib/auth";
 import { withTenant } from "../src/lib/rbac";
 
-const port = Number(process.env.SOCKET_PORT ?? 4001);
+// Render supplies PORT; fallback to SOCKET_PORT or 4001
+const port = Number(process.env.PORT ?? process.env.SOCKET_PORT ?? 4001);
 const appUrl = process.env.NEXT_PUBLIC_APP_URL ?? "http://localhost:3000";
 const server = createServer();
 const io = new Server(server, {
@@ -15,12 +16,18 @@ const io = new Server(server, {
   maxHttpBufferSize: 1e6,
   connectionStateRecovery: { maxDisconnectionDuration: 120000 },
 });
+
+// Run with Redis adapter if REDIS_URL exists, otherwise run standalone in-memory
 if (process.env.REDIS_URL) {
   const pub = new Redis(process.env.REDIS_URL, { maxRetriesPerRequest: null });
   const sub = pub.duplicate();
+  pub.on("error", (err) => console.error("Redis Pub error:", err.message));
+  sub.on("error", (err) => console.error("Redis Sub error:", err.message));
   io.adapter(createAdapter(pub, sub));
-} else if (process.env.NODE_ENV === "production")
-  throw new Error("REDIS_URL is required for the production Socket.io server");
+  console.info("Socket.io: Connected to Redis adapter");
+} else {
+  console.info("Socket.io: Running in standalone mode without Redis");
+}
 
 io.use(async (socket, next) => {
   try {
@@ -115,6 +122,7 @@ io.on("connection", (socket) => {
       socket.leave(`workspace:${input.workspaceId}:channel:${input.channelId}`),
   );
 });
+
 server.listen(port, () =>
   console.info(`SyncHQ Socket.io listening on :${port}`),
 );
